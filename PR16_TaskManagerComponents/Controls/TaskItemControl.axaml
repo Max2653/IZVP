@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="using:TaskManager.Controls"
+             x:Class="TaskManager.Controls.TaskItemControl">
+
+  <UserControl.Styles>
+    <Style Selector="TextBlock.done">
+      <Setter Property="TextDecorations" Value="Strikethrough" />
+      <Setter Property="Foreground" Value="Gray" />
+    </Style>
+  </UserControl.Styles>
+
+  <!-- Картка одного завдання. Усі значення беруться з властивостей самого компонента ($parent[c:TaskItemControl]) -->
+  <Border Background="White" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="10,8">
+    <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+      <CheckBox VerticalAlignment="Center"
+                IsChecked="{Binding $parent[c:TaskItemControl].IsDone, Mode=TwoWay}" />
+
+      <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="4,0,8,0" TextWrapping="Wrap"
+                 Text="{Binding $parent[c:TaskItemControl].Title}"
+                 Classes.done="{Binding $parent[c:TaskItemControl].IsDone}" />
+
+      <!-- вкладений повторно використовуваний компонент -->
+      <c:TaskStatusBadge Grid.Column="2" Margin="0,0,8,0"
+                         IsDone="{Binding $parent[c:TaskItemControl].IsDone}" />
+
+      <Button Grid.Column="3" VerticalAlignment="Center"
+              Content="{Binding $parent[c:TaskItemControl].DeleteText}"
+              Click="DeleteButton_Click" />
+    </Grid>
+  </Border>
+</UserControl>
